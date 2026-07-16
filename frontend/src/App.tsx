@@ -2,6 +2,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 type Task = {
+  id: string;
   text: string;
   done: boolean;
 };
@@ -13,30 +14,47 @@ function App() {
   });
 
   const [newTask, setNewTask] = useState("");
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [editedText, setEditedText] = useState("");
 
   function addTask() {
     if (newTask.trim() === "") return;
 
     setTasks([
       ...tasks,
-      { text: newTask.trim(), done: false }
+      { id: crypto.randomUUID(), text: newTask.trim(), done: false }
     ]);
 
     setNewTask("");
   }
 
-  function deleteTask(indexToRemove: number) {
-    setTasks(tasks.filter((_, index: number) => index !== indexToRemove));
+  function deleteTask(idToRemove: string) {
+    setTasks(tasks.filter((task) => task.id !== idToRemove));
   }
 
-  function toggleTask(indexToToggle: number) {
+  function toggleTask(idToToggle: string) {
     setTasks(
-      tasks.map((task: Task, index: number) =>
-        index === indexToToggle
+      tasks.map((task) =>
+        task.id === idToToggle
           ? { ...task, done: !task.done }
           : task
       )
     );
+  }
+
+  function saveTask(){
+    if (!editingTaskId) return;
+
+    setTasks(
+      tasks.map((task) => 
+        task.id === editingTaskId
+          ? {...task, text: editedText.trim()}
+          : task 
+      )
+    );
+
+    setEditingTaskId(null);
+    setEditedText("");
   }
 
   useEffect(() => {
@@ -61,22 +79,50 @@ function App() {
       <button onClick={addTask}>Legg til</button>
 
       <ul>
-        {tasks.map((task: Task, index: number) => (
-          <li key={index} className="task-item">
+        {tasks.map((task) => (
+          <li key={task.id} className="task-item">
             <div className="task-left">
               <input
               type="checkbox"
               checked={task.done}
-              onChange={() => toggleTask(index)}
+              onChange={() => toggleTask(task.id)}
               />
 
-              <span className={task.done ? "done" : ""}>
-                {task.text}
-              </span>
+              {editingTaskId === task.id ?(
+                <input
+                  type="text"
+                  value={editedText}
+                  onChange={(e) => setEditedText(e.target.value)}/>
+              ) : (
+                <span className={task.done ? "done" : ""}>{task.text}</span>
+              )}
             </div>
 
 
-            <button onClick={() => deleteTask(index)}>X</button>
+            {editingTaskId === task.id ? (
+              <>
+                <button onClick={saveTask}>Lagre</button>
+
+                <button 
+                  onClick={() => {
+                    setEditingTaskId(null);
+                    setEditedText("");
+                  }}>Avbryt</button>
+              </>
+            ) : (
+              <>
+                <button onClick={() => deleteTask(task.id)}>X</button>
+
+                <button onClick={() => {
+                  setEditingTaskId(task.id);
+                  setEditedText(task.text);
+                }}>Edit</button>
+
+              </>
+            )}
+            
+            
+
           </li>
         ))}
       </ul>
