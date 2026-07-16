@@ -29,7 +29,16 @@ function App() {
   }
 
   function deleteTask(idToRemove: string) {
-    setTasks(tasks.filter((task) => task.id !== idToRemove));
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this task?"
+    );
+
+    if (!confirmed) return; 
+    
+    setTasks(
+      tasks.filter((task) => 
+        task.id !== idToRemove
+    ));
   }
 
   function toggleTask(idToToggle: string) {
