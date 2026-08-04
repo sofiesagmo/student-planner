@@ -82,12 +82,16 @@ function App() {
     return task.done;
   });
 
+  const tasksLeft = tasks.filter((task) => !task.done).length;
+
   return (
     <div className="container">
       <h1>Student Planner</h1>
       <p>Velkommen til mitt første fullstack-prosjekt!</p>
 
       <h2>Mine oppgaver</h2>
+
+
 
       <input
         className="new-task-input"
@@ -158,8 +162,11 @@ function App() {
 
           </li>
         ))}
+        
+         <p>{tasksLeft} tasks left</p>
+      
       </ul>
-    </div>
+    </div>     
   );
 }
 
