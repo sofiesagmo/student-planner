@@ -139,3 +139,29 @@ input[type="checkbox"] {
   width: 18px;
   height: 18px;
 }
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.filter-buttons button {
+  background: white;
+  border: 1px solid var(--green-primary);
+  color: var(--green-primary);
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.filter-buttons button:hover {
+  background: var(--green-light);
+}
+
+.filter-buttons button.active-filter {
+  background: var(--green-primary);
+  color: white;
+  border-color: var(--green-primary);
+}

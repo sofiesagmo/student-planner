@@ -14,6 +14,7 @@ function App() {
   });
 
   const [newTask, setNewTask] = useState("");
+  const [filter, setFilter] = useState("all");
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editedText, setEditedText] = useState("");
 
@@ -70,6 +71,17 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "all"){
+      return true;
+    } 
+    if (filter === "active"){
+      return !task.done;
+    }
+
+    return task.done;
+  });
+
   return (
     <div className="container">
       <h1>Student Planner</h1>
@@ -88,8 +100,16 @@ function App() {
 
       <button className="add-button" onClick={addTask}>Add</button>
 
+    <div className="filter-buttons">
+      <button className={filter === "all" ? "active-filter" : ""} onClick={() => setFilter("all")}>All</button>
+      <button className={filter === "active" ? "active-filter" : ""} onClick={() => setFilter("active")}>Active</button>
+      <button className={filter === "completed" ? "active-filter" : ""} onClick={() => setFilter("completed")}>Completed</button>
+    </div>
+
+    <p>Filter: {filter}</p>
+
       <ul>
-        {tasks.map((task) => (
+        {filteredTasks.map((task) => (
           <li key={task.id} className="task-item">
             <div className="task-left">
               <input
