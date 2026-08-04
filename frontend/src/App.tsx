@@ -83,6 +83,7 @@ function App() {
   });
 
   const tasksLeft = tasks.filter((task) => !task.done).length;
+  const completedTasks = tasks.length - tasksLeft;
 
   return (
     <div className="container">
@@ -104,6 +105,9 @@ function App() {
 
       <button className="add-button" onClick={addTask}>Add</button>
 
+      
+    <p className="task-counter">{completedTasks} / {tasks.length} completed</p>
+
     <div className="filter-buttons">
       <button className={filter === "all" ? "active-filter" : ""} onClick={() => setFilter("all")}>All</button>
       <button className={filter === "active" ? "active-filter" : ""} onClick={() => setFilter("active")}>Active</button>
@@ -111,6 +115,7 @@ function App() {
     </div>
 
     <p>Filter: {filter}</p>
+
 
       <ul>
         {filteredTasks.map((task) => (
@@ -163,7 +168,6 @@ function App() {
           </li>
         ))}
         
-         <p>{tasksLeft} tasks left</p>
       
       </ul>
     </div>     
