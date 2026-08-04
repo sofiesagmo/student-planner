@@ -1,5 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import TaskItem from "./components/TaskItem";
 
 type Task = {
   id: string;
@@ -117,59 +118,11 @@ function App() {
     <p>Filter: {filter}</p>
 
 
-      <ul>
-        {filteredTasks.map((task) => (
-          <li key={task.id} className="task-item">
-            <div className="task-left">
-              <input
-              type="checkbox"
-              checked={task.done}
-              onChange={() => toggleTask(task.id)}
-              />
-
-              {editingTaskId === task.id ?(
-                <input
-                  className="edit-input"
-                  type="text"
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}/>
-              ) : (
-                <span className={`task-text ${task.done ? "done" : ""}`}>{task.text}</span>
-              )}
-            </div>
-
-            <div className="task-actions">
-              {editingTaskId === task.id ? (
-                <>
-                  <button 
-                    className="save-button"
-                    onClick={saveTask}>Save</button>
-
-                  <button 
-                    className="cancel-button"
-                    onClick={() => {
-                      setEditingTaskId(null);
-                      setEditedText("");
-                    }}>Cancel</button>
-                </>
-              ) : (
-                <>
-                  <button className="edit-button" onClick={() => {
-                    setEditingTaskId(task.id);
-                    setEditedText(task.text);
-                  }}>Edit</button>
-
-                  <button className="delete-button" onClick={() => deleteTask(task.id)}>X</button>
-                </>
-              )}
-            </div>
-            
-
-          </li>
-        ))}
-        
-      
-      </ul>
+    <ul>
+      {filteredTasks.map((task) => (
+        <TaskItem key={task.id} task={task} />
+      ))}
+    </ul>
     </div>     
   );
 }
