@@ -53,19 +53,14 @@ function App() {
     );
   }
 
-  function saveTask(){
-    if (!editingTaskId) return;
-
+  function saveTask(id: string, text: string){
     setTasks(
-      tasks.map((task) => 
-        task.id === editingTaskId
-          ? {...task, text: editedText.trim()}
-          : task 
+      tasks.map((task) =>
+        task.id === id
+          ? { ...task, text: text.trim() }
+          : task
       )
     );
-
-    setEditingTaskId(null);
-    setEditedText("");
   }
 
   useEffect(() => {
@@ -120,7 +115,13 @@ function App() {
 
     <ul>
       {filteredTasks.map((task) => (
-        <TaskItem key={task.id} task={task} />
+        <TaskItem
+         key={task.id} 
+         task={task} 
+         toggleTask={toggleTask}
+         deleteTask={deleteTask}
+         saveTask={saveTask}
+         />
       ))}
     </ul>
     </div>     
