@@ -16,8 +16,6 @@ function App() {
 
   const [newTask, setNewTask] = useState("");
   const [filter, setFilter] = useState("all");
-  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
-  const [editedText, setEditedText] = useState("");
 
   function addTask() {
     if (newTask.trim() === "") return;
