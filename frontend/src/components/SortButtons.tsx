@@ -27,8 +27,8 @@ function SortButtons({
       </button>
 
       <button
-        className={sortOption === "createdAt" ? "active-filter" : ""}
-        onClick={() => setSortOption("createdAt")}
+        className={sortOption === "newest" ? "active-filter" : ""}
+        onClick={() => setSortOption("newest")}
       >
         Newest
       </button>

@@ -85,7 +85,7 @@ function isOverdue(dueDate: string, done: boolean) {
           />
         </div>
         ) : (
-          <div>
+          <div className="task-content">
             <span className={`task-text ${task.done ? "done" : ""}`}>
               {task.text}
             </span>

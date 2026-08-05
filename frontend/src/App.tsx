@@ -23,7 +23,7 @@ function App() {
 
     setTasks([
       ...tasks,
-      { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, createdAt: new Date().toISOString(), }
+      { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, }
     ]);
 
     setNewTask("");
@@ -79,12 +79,13 @@ function App() {
   });
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
+
     if (sortOption === "alphabetical") {
       return a.text.localeCompare(b.text);
     }
 
-    if (sortOption === "createdAt") {
-      return (a.createdAt ?? "").localeCompare(b.createdAt ?? "");
+    if (sortOption === "newest") {
+      return filteredTasks.indexOf(b) - filteredTasks.indexOf(a);
     }
 
     if (!a.dueDate) return 1;
