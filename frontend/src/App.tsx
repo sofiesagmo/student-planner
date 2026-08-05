@@ -76,6 +76,13 @@ function App() {
     return task.done;
   });
 
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+  if (!a.dueDate) return 1;
+  if (!b.dueDate) return -1;
+
+  return a.dueDate.localeCompare(b.dueDate);
+});
+
   const tasksLeft = tasks.filter((task) => !task.done).length;
   const completedTasks = tasks.length - tasksLeft;
 
@@ -120,7 +127,7 @@ function App() {
 
 
     <ul>
-      {filteredTasks.map((task) => (
+      {sortedTasks.map((task) => (
         <TaskItem
          key={task.id} 
          task={task} 

@@ -35,6 +35,23 @@ function formatDate(date: string) {
   });
 }
 
+function isOverdue(dueDate: string, done: boolean) {
+  if (!dueDate || done) return false;
+
+  const [year, month, day] = dueDate.split("-");
+
+  const due = new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day)
+  );
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return due < today;
+}
+
   return (
     <li className="task-item">
     <div className="task-left">
@@ -74,8 +91,10 @@ function formatDate(date: string) {
             </span>
 
             {task.dueDate && (
-              <p className="task-date">
-                {formatDate(task.dueDate)}
+              <p className={`task-date ${isOverdue(task.dueDate, task.done) ? "overdue" : ""}`}>
+                {isOverdue(task.dueDate, task.done)
+                  ? `Overdue: ${formatDate(task.dueDate)}`
+                  : `${formatDate(task.dueDate)}`}
               </p>
             )}
           </div>
