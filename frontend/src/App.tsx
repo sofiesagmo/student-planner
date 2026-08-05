@@ -4,6 +4,7 @@ import TaskItem from "./components/TaskItem";
 import FilterButtons from "./components/FilterButtons";
 import TaskCounter from "./components/TaskCounter";
 import type { Task, Filter, SortOption } from "./types";
+import SortButtons from "./components/SortButtons";
 
 
 function App() {
@@ -134,28 +135,10 @@ function App() {
 
     <p>Filter: {filter}</p>
 
-    <div className="sort-buttons">
-      <button
-        className={sortOption === "dueDate" ? "active-filter" : ""}
-        onClick={() => setSortOption("dueDate")}
-      >
-        Due date
-      </button>
-
-      <button
-        className={sortOption === "alphabetical" ? "active-filter" : ""}
-        onClick={() => setSortOption("alphabetical")}
-      >
-        A-Z
-      </button>
-
-      <button
-        className={sortOption === "createdAt" ? "active-filter" : ""}
-        onClick={() => setSortOption("createdAt")}
-      >
-        Newest
-      </button>
-    </div>
+    <SortButtons
+      sortOption={sortOption}
+      setSortOption={setSortOption}
+    />
 
     <ul>
       {sortedTasks.map((task) => (
