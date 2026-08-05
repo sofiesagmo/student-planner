@@ -13,6 +13,7 @@ function App() {
   });
 
   const [newTask, setNewTask] = useState("");
+  const [newDueDate, setNewDueDate] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
 
   function addTask() {
@@ -20,10 +21,11 @@ function App() {
 
     setTasks([
       ...tasks,
-      { id: crypto.randomUUID(), text: newTask.trim(), done: false }
+      { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, }
     ]);
 
     setNewTask("");
+    setNewDueDate("");
   }
 
   function deleteTask(idToRemove: string) {
@@ -49,11 +51,11 @@ function App() {
     );
   }
 
-  function saveTask(id: string, text: string){
+  function saveTask(id: string, text: string, dueDate: string){
     setTasks(
       tasks.map((task) =>
         task.id === id
-          ? { ...task, text: text.trim() }
+          ? { ...task, text: text.trim(), dueDate, }
           : task
       )
     );
@@ -93,6 +95,12 @@ function App() {
         onChange={(e) => setNewTask(e.target.value)}
         placeholder="Skriv en oppgave"
         onKeyDown={(e) => e.key === "Enter" && addTask()}
+      />
+
+      <input
+        type="date"
+        value={newDueDate}
+        onChange={(e) => setNewDueDate(e.target.value)}
       />
 
       <button className="add-button" onClick={addTask}>Add</button>

@@ -5,7 +5,7 @@ type TaskItemProps = {
   task: Task;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
-  saveTask: (id: string, text: string) => void;
+  saveTask: (id: string, text: string, dueDate: string) => void;
 };
 
 function TaskItem({
@@ -17,7 +17,23 @@ function TaskItem({
 
 const [isEditing, setIsEditing] = useState(false);
 const [editedText, setEditedText] = useState(task.text);
+const [editedDueDate, setEditedDueDate] = useState(task.dueDate);
 
+function formatDate(date: string) {
+  if (!date) return "";
+
+  const [year, month, day] = date.split("-");
+
+  return new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day)
+  ).toLocaleDateString("no-NO", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
   return (
     <li className="task-item">
@@ -29,26 +45,42 @@ const [editedText, setEditedText] = useState(task.text);
         />
 
       {isEditing ? (
-        <input
-            className="edit-input"
-            type="text"
-            value={editedText}
-            onChange={(e) => setEditedText(e.target.value)}
-            onKeyDown={(e) => {
-            if (e.key === "Enter") {
-                if (editedText.trim() === "") return;
+        <div className="edit-fields">
+          <input
+              className="edit-input"
+              type="text"
+              value={editedText}
+              onChange={(e) => setEditedText(e.target.value)}
+              onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                  if (editedText.trim() === "") return;
 
-                saveTask(task.id, editedText);
-                setIsEditing(false);
-            }
-            }}
-        />
+                  saveTask(task.id, editedText, editedDueDate);
+                  setIsEditing(false);
+              }
+              }}
+          />
+          <input
+            className="edit-date-input"
+            type="date"
+            value={editedDueDate}
+            onChange={(e) => setEditedDueDate(e.target.value)}
+          />
+        </div>
         ) : (
-        <span className={`task-text ${task.done ? "done" : ""}`}>
-            {task.text}
-        </span>
-        )}
-      </div>
+          <div>
+            <span className={`task-text ${task.done ? "done" : ""}`}>
+              {task.text}
+            </span>
+
+            {task.dueDate && (
+              <p className="task-date">
+                {formatDate(task.dueDate)}
+              </p>
+            )}
+          </div>
+          )}
+        </div>
 
       <div className="task-actions">
         {isEditing ? (
@@ -58,7 +90,7 @@ const [editedText, setEditedText] = useState(task.text);
                 onClick={() => {
                     if (editedText.trim() === "") return;
 
-                    saveTask(task.id, editedText);
+                    saveTask(task.id, editedText, editedDueDate);
                     setIsEditing(false);
                 }}
                 >
@@ -78,7 +110,11 @@ const [editedText, setEditedText] = useState(task.text);
             ) : (
             <button
                 className="edit-button"
-                onClick={() => setIsEditing(true)}
+                onClick={() => {
+                  setEditedText(task.text);
+                  setEditedDueDate(task.dueDate);
+                  setIsEditing(true);
+                }}
             >
                 Edit
             </button>
