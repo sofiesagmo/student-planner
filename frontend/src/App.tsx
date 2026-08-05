@@ -1,12 +1,15 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import TaskItem from "./components/TaskItem";
+import FilterButtons from "./components/FilterButtons";
 
 type Task = {
   id: string;
   text: string;
   done: boolean;
 };
+
+type Filter = "all" | "active" | "completed";
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>(() => {
@@ -15,8 +18,8 @@ function App() {
   });
 
   const [newTask, setNewTask] = useState("");
-  const [filter, setFilter] = useState("all");
-
+  const [filter, setFilter] = useState<Filter>("all");
+  
   function addTask() {
     if (newTask.trim() === "") return;
 
@@ -102,11 +105,10 @@ function App() {
       
     <p className="task-counter">{completedTasks} / {tasks.length} completed</p>
 
-    <div className="filter-buttons">
-      <button className={filter === "all" ? "active-filter" : ""} onClick={() => setFilter("all")}>All</button>
-      <button className={filter === "active" ? "active-filter" : ""} onClick={() => setFilter("active")}>Active</button>
-      <button className={filter === "completed" ? "active-filter" : ""} onClick={() => setFilter("completed")}>Completed</button>
-    </div>
+    <FilterButtons
+      filter={filter}
+      setFilter={setFilter}
+    />
 
     <p>Filter: {filter}</p>
 
