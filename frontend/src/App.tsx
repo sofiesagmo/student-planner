@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import TaskItem from "./components/TaskItem";
 import FilterButtons from "./components/FilterButtons";
 import TaskCounter from "./components/TaskCounter";
-import type { Task, Filter } from "./types";
+import type { Task, Filter, SortOption } from "./types";
 
 
 function App() {
@@ -15,13 +15,14 @@ function App() {
   const [newTask, setNewTask] = useState("");
   const [newDueDate, setNewDueDate] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
+  const [sortOption, setSortOption] = useState<SortOption>("dueDate");
 
   function addTask() {
     if (newTask.trim() === "") return;
 
     setTasks([
       ...tasks,
-      { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, }
+      { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, createdAt: new Date().toISOString(), }
     ]);
 
     setNewTask("");
@@ -77,11 +78,19 @@ function App() {
   });
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
-  if (!a.dueDate) return 1;
-  if (!b.dueDate) return -1;
+    if (sortOption === "alphabetical") {
+      return a.text.localeCompare(b.text);
+    }
 
-  return a.dueDate.localeCompare(b.dueDate);
-});
+    if (sortOption === "createdAt") {
+      return (a.createdAt ?? "").localeCompare(b.createdAt ?? "");
+    }
+
+    if (!a.dueDate) return 1;
+    if (!b.dueDate) return -1;
+
+    return a.dueDate.localeCompare(b.dueDate);
+  });
 
   const tasksLeft = tasks.filter((task) => !task.done).length;
   const completedTasks = tasks.length - tasksLeft;
@@ -125,6 +134,28 @@ function App() {
 
     <p>Filter: {filter}</p>
 
+    <div className="sort-buttons">
+      <button
+        className={sortOption === "dueDate" ? "active-filter" : ""}
+        onClick={() => setSortOption("dueDate")}
+      >
+        Due date
+      </button>
+
+      <button
+        className={sortOption === "alphabetical" ? "active-filter" : ""}
+        onClick={() => setSortOption("alphabetical")}
+      >
+        A-Z
+      </button>
+
+      <button
+        className={sortOption === "createdAt" ? "active-filter" : ""}
+        onClick={() => setSortOption("createdAt")}
+      >
+        Newest
+      </button>
+    </div>
 
     <ul>
       {sortedTasks.map((task) => (
