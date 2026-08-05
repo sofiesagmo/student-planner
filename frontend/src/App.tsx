@@ -100,9 +100,15 @@ function App() {
   return (
     <div className="container">
       <h1>Student Planner</h1>
-      <p>Velkommen til mitt første fullstack-prosjekt!</p>
+      <p className="app-description">
+        Welcome to my first fullstack-project!
+        An app where you can organize your coursework, assignments,
+         and deadlines in one place.
+        Includes task management, due dates, filters and sorting options.</p>
 
-      <h2>Mine oppgaver</h2>
+      <hr className="section-divider" />  
+
+      <h2>My tasks</h2>
 
 
 

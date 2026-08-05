@@ -8,6 +8,15 @@
   --border: #d1d5db;
 }
 
+.app-description {
+  max-width: 480px;
+  margin: 0 auto 28px;
+  text-align: center;
+  color: #6b7280;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
 .container {
   max-width: 500px;
   margin: 60px auto;
@@ -21,13 +30,23 @@
 h1 {
   text-align: center;
   margin-bottom: 8px;
+  color: var(--green-primary);
+  font-weight: 700;
+  font-size: 2.5rem;
+
 }
 
 h2 {
   margin-top: 24px;
-  margin-bottom: 12px;
-  font-size: 18px;
-  color: #333;
+  margin-bottom: 16px;
+  font-size: 1.3rem;
+  color: var(--text);
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 32px 0 24px;
 }
 
 .new-task-input {
