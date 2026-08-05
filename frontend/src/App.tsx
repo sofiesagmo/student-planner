@@ -2,6 +2,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import TaskItem from "./components/TaskItem";
 import FilterButtons from "./components/FilterButtons";
+import TaskCounter from "./components/TaskCounter";
 
 type Task = {
   id: string;
@@ -19,7 +20,7 @@ function App() {
 
   const [newTask, setNewTask] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
-  
+
   function addTask() {
     if (newTask.trim() === "") return;
 
@@ -103,8 +104,11 @@ function App() {
       <button className="add-button" onClick={addTask}>Add</button>
 
       
-    <p className="task-counter">{completedTasks} / {tasks.length} completed</p>
-
+    <TaskCounter
+      completedTasks={completedTasks}
+      totalTasks={tasks.length}
+    />
+    
     <FilterButtons
       filter={filter}
       setFilter={setFilter}
