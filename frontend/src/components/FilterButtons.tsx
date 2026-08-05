@@ -1,5 +1,5 @@
 
-type Filter = "all" | "active" | "completed";
+import type { Filter } from "../types";
 
 type FilterButtonsProps = {
   filter: Filter;

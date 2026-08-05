@@ -3,14 +3,8 @@ import { useEffect, useState } from "react";
 import TaskItem from "./components/TaskItem";
 import FilterButtons from "./components/FilterButtons";
 import TaskCounter from "./components/TaskCounter";
+import type { Task, Filter } from "./types";
 
-type Task = {
-  id: string;
-  text: string;
-  done: boolean;
-};
-
-type Filter = "all" | "active" | "completed";
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>(() => {
@@ -108,7 +102,7 @@ function App() {
       completedTasks={completedTasks}
       totalTasks={tasks.length}
     />
-    
+
     <FilterButtons
       filter={filter}
       setFilter={setFilter}

@@ -1,10 +1,5 @@
 import { useState } from "react";
-
-type Task = {
-  id: string;
-  text: string;
-  done: boolean;
-};
+import type { Task } from "../types";
 
 type TaskItemProps = {
   task: Task;
