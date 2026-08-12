@@ -4,6 +4,7 @@ export type Task = {
   text: string;
   done: boolean;
   dueDate: string;
+  priority: "low" | "medium" | "high"
 };
 
 export type Filter = "all" | "active" | "completed";

@@ -15,6 +15,7 @@ function App() {
 
   const [newTask, setNewTask] = useState("");
   const [newDueDate, setNewDueDate] = useState("");
+  const [newPriority, setNewPriority] = useState<"low" | "medium" | "high">("medium");
   const [filter, setFilter] = useState<Filter>("all");
   const [sortOption, setSortOption] = useState<SortOption>("dueDate");
 
@@ -23,7 +24,7 @@ function App() {
 
     setTasks([
       ...tasks,
-      { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, }
+      { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, priority: newPriority}
     ]);
 
     setNewTask("");
@@ -126,6 +127,16 @@ function App() {
         value={newDueDate}
         onChange={(e) => setNewDueDate(e.target.value)}
       />
+
+      <select
+        value={newPriority}
+        onChange={(e) =>
+        setNewPriority(e.target.value as "low" | "medium" | "high")}
+        >
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+      </select>
 
       <button className="add-button" onClick={addTask}>Add</button>
 
