@@ -5,6 +5,7 @@ import FilterButtons from "./components/FilterButtons";
 import TaskCounter from "./components/TaskCounter";
 import type { Task, Filter, SortOption } from "./types";
 import SortButtons from "./components/SortButtons";
+import Toast from "./components/Toast";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
   const [newPriority, setNewPriority] = useState<"low" | "medium" | "high">("medium");
   const [filter, setFilter] = useState<Filter>("all");
   const [sortOption, setSortOption] = useState<SortOption>("dueDate");
+  const [toastMessage, setToastMessage] = useState("");
 
   function addTask() {
     if (newTask.trim() === "") return;
@@ -26,6 +28,7 @@ function App() {
       ...tasks,
       { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, priority: newPriority}
     ]);
+    setToastMessage("Task added");
 
     setNewTask("");
     setNewDueDate("");
@@ -42,6 +45,8 @@ function App() {
       tasks.filter((task) => 
         task.id !== idToRemove
     ));
+
+    setToastMessage("Task deleted");
   }
 
   function toggleTask(idToToggle: string) {
@@ -62,11 +67,23 @@ function App() {
           : task
       )
     );
+
+    setToastMessage("Task updated");
   }
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
+
+  useEffect(() => {
+    if (!toastMessage) return;
+
+    const timer = setTimeout(() => {
+      setToastMessage("");
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [toastMessage]);
 
   const filteredTasks = tasks.filter((task) => {
     if (filter === "all"){
@@ -170,6 +187,8 @@ function App() {
          />
       ))}
     </ul>
+
+    {toastMessage && <Toast message={toastMessage} />}
     </div>     
   );
 }

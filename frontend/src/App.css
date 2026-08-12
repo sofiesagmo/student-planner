@@ -66,10 +66,10 @@ ul {
 
 .task-item {
   position: relative;
+  min-height: 64px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px;
+  align-items: flex-start;
+  padding: 12px 90px 12px 12px;
   margin-bottom: 8px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -84,27 +84,32 @@ ul {
 
 .task-left {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   flex: 1;
   min-width: 0;
 }
 
+.task-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
 .task-actions {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-left: auto;
+  gap: 4px;
 }
 
 .done {
   text-decoration: line-through;
   color: #6b8f71;
-}
-
-.task-actions button {
-  border: none;
-  background: transparent;
 }
 
 .delete-button {
@@ -115,10 +120,15 @@ ul {
   background: transparent;
   color: #9ca3af;
   font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .delete-button:hover{
   background: #ef5b5b;
+  border-color: #dc2626;
   color: white;
 }
 
@@ -138,10 +148,13 @@ ul {
   color: #6b7280;
   font-size: 12px;
   cursor: pointer;
+  border: 1px solid var(--border);
+  border-radius: 6px;
 }
 
 .edit-button:hover {
   background: #e8f5e9;
+  border-color: var(--green-primary);
   color: var(--green-primary);
 }
 

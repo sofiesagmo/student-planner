@@ -54,7 +54,7 @@ function isOverdue(dueDate: string, done: boolean) {
 
   return (
     <li className="task-item">
-      
+
     <span className={`priority-badge priority-${task.priority}`}>{task.priority}</span>
 
     <div className="task-left">
@@ -125,6 +125,7 @@ function isOverdue(dueDate: string, done: boolean) {
                 onClick={() => {
                     setIsEditing(false);
                     setEditedText(task.text);
+                    setEditedDueDate(task.dueDate);
                 }}
                 >
                 Cancel
