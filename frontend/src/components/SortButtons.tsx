@@ -12,26 +12,19 @@ function SortButtons({
 }: SortButtonsProps) {
   return (
     <div className="sort-buttons">
-      <button
-        className={sortOption === "dueDate" ? "active-filter" : ""}
-        onClick={() => setSortOption("dueDate")}
-      >
-        Due date
-      </button>
+      <label htmlFor="sort-select">Sort by:</label>
 
-      <button
-        className={sortOption === "alphabetical" ? "active-filter" : ""}
-        onClick={() => setSortOption("alphabetical")}
+      <select
+        id="sort-select"
+        value={sortOption}
+        onChange={(e) =>
+          setSortOption(e.target.value as SortOption)
+        }
       >
-        A-Z
-      </button>
-
-      <button
-        className={sortOption === "newest" ? "active-filter" : ""}
-        onClick={() => setSortOption("newest")}
-      >
-        Newest
-      </button>
+        <option value="dueDate">Due date</option>
+        <option value="alphabetical">A-Z</option>
+        <option value="newest">Newest</option>
+      </select>
     </div>
   );
 }

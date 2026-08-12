@@ -54,6 +54,9 @@ function isOverdue(dueDate: string, done: boolean) {
 
   return (
     <li className="task-item">
+      
+    <span className={`priority-badge priority-${task.priority}`}>{task.priority}</span>
+
     <div className="task-left">
       <input
             type="checkbox"
@@ -97,6 +100,7 @@ function isOverdue(dueDate: string, done: boolean) {
                   : `${formatDate(task.dueDate)}`}
               </p>
             )}
+
           </div>
           )}
         </div>

@@ -111,53 +111,54 @@ function App() {
 
       <h2>My tasks</h2>
 
+      <div className="task-input-row">
+        <input
+          className="new-task-input"
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          placeholder="Write a task"
+          onKeyDown={(e) => e.key === "Enter" && addTask()}
+        />
 
+        <input
+          type="date"
+          value={newDueDate}
+          onChange={(e) => setNewDueDate(e.target.value)}
+        />
 
-      <input
-        className="new-task-input"
-        type="text"
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-        placeholder="Skriv en oppgave"
-        onKeyDown={(e) => e.key === "Enter" && addTask()}
-      />
+        <select
+          className="priority-select"
+          value={newPriority}
+          onChange={(e) =>
+          setNewPriority(e.target.value as "low" | "medium" | "high")}
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
 
-      <input
-        type="date"
-        value={newDueDate}
-        onChange={(e) => setNewDueDate(e.target.value)}
-      />
+        <button className="add-button" onClick={addTask}>Add</button>
 
-      <select
-        value={newPriority}
-        onChange={(e) =>
-        setNewPriority(e.target.value as "low" | "medium" | "high")}
-        >
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-      </select>
+      </div>
 
-      <button className="add-button" onClick={addTask}>Add</button>
+      <div className="task-controls">
+        <TaskCounter
+          completedTasks={completedTasks}
+          totalTasks={tasks.length}
+        />
 
+        <FilterButtons
+          filter={filter}
+          setFilter={setFilter}
+        />
+
+        <SortButtons
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+        />
+      </div>
       
-    <TaskCounter
-      completedTasks={completedTasks}
-      totalTasks={tasks.length}
-    />
-
-    <FilterButtons
-      filter={filter}
-      setFilter={setFilter}
-    />
-
-    <p>Filter: {filter}</p>
-
-    <SortButtons
-      sortOption={sortOption}
-      setSortOption={setSortOption}
-    />
-
     <ul>
       {sortedTasks.map((task) => (
         <TaskItem
