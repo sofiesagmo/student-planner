@@ -21,17 +21,43 @@ function App() {
   const [sortOption, setSortOption] = useState<SortOption>("dueDate");
   const [toastMessage, setToastMessage] = useState("");
 
-  function addTask() {
+  async function addTask() {
+
+    console.log("ADD CLICKED");
+    
     if (newTask.trim() === "") return;
 
-    setTasks([
-      ...tasks,
-      { id: crypto.randomUUID(), text: newTask.trim(), done: false, dueDate: newDueDate, priority: newPriority}
-    ]);
-    setToastMessage("Task added");
+    const newTaskObject: Task = {
+      id: crypto.randomUUID(),
+      text: newTask.trim(),
+      done: false,
+      dueDate: newDueDate,
+      priority: newPriority,
+      createdAt: new Date().toISOString(),
+    };
 
-    setNewTask("");
-    setNewDueDate("");
+    try {
+      const response = await fetch("http://localhost:3000/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTaskObject),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add task");
+      }
+      const savedTask = await response.json();
+
+      setTasks((currentTasks) => [... currentTasks, savedTask]);
+
+      setNewTask("");
+      setNewDueDate("");
+      setNewPriority("low");
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   }
 
   function deleteTask(idToRemove: string) {
@@ -203,5 +229,6 @@ function App() {
     </div>     
   );
 }
+
 
 export default App;

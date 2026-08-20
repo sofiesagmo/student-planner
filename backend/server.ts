@@ -1,9 +1,11 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 type Task = {
     id: string;
@@ -33,5 +35,5 @@ app.post("/tasks", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on http:localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
 });
