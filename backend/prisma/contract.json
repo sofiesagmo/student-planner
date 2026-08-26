@@ -18,7 +18,7 @@
               "createdAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
               },
@@ -96,12 +96,8 @@
             "task": {
               "columns": {
                 "createdAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
-                  "nativeType": "timestamptz",
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
                   "nullable": false
                 },
                 "done": {
@@ -149,7 +145,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "9e8b96b33bac5cfb3e9ffbdeba7a64257c7cb91f04cee52a4e7f08600532f480"
+    "storageHash": "8c523ed0341294582b9eb9f9d0e5329356a65ab7df3b602a4f44fbcff256288b"
   },
   "capabilities": {
     "postgres": {

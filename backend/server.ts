@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import db from "./db";
+import db from "./db.js";
 
 const app = express();
 const PORT = 3000;
@@ -33,58 +33,56 @@ app.get("/tasks", async (req, res) => {
   }
 });
 
-app.post("/tasks", (req, res) => {
-    const task: Task = req.body;
-
-    tasks.push(task);
+app.post("/tasks", async (req, res) => {
+  try {
+    const task = await db.orm.public.Task.create({
+      id: req.body.id,
+      text: req.body.text,
+      done: req.body.done,
+      dueDate: req.body.dueDate,
+      priority: req.body.priority,
+      createdAt: req.body.createdAt,
+    });
 
     res.status(201).json(task);
+  } catch (error) {
+    console.error("Error creating task:", error);
+    res.status(500).json({ message: "Failed to create task" });
+  }
 });
 
-app.delete("/tasks/:id", (req, res) => {
+app.delete("/tasks/:id", async (req, res) => {
+  try {
     const taskId = req.params.id;
 
-    const taskIndex = tasks.findIndex(
-        (task) => task.id === taskId
-    );
-
-    if (taskIndex === -1) {
-        res.status(404).json({message: "Task not found"});
-        return;
-    }
-
-    tasks.splice(taskIndex, 1);
+    await db.orm.public.Task
+      .where({ id: taskId })
+      .delete();
 
     res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    res.status(500).json({ message: "Failed to delete task" });
+  }
 });
 
-app.patch("/tasks/:id", (req, res) => {
-  const taskId = req.params.id;
+app.patch("/tasks/:id", async (req, res) => {
+  try {
+    const taskId = req.params.id;
 
-  const task = tasks.find((task) => task.id === taskId);
+    const updatedTask = await db.orm.public.Task
+      .where({ id: taskId })
+      .update({
+        done: req.body.done,
+        text: req.body.text,
+        dueDate: req.body.dueDate,
+      });
 
-  if (!task) {
-    res.status(404).json({ message: "Task not found" });
-    return;
+    res.json(updatedTask);
+  } catch (error) {
+    console.error("Error updating task:", error);
+    res.status(500).json({ message: "Failed to update task" });
   }
-
-  if (req.body.text !== undefined) {
-    task.text = req.body.text;
-  }
-
-  if (req.body.done !== undefined) {
-    task.done = req.body.done;
-  }
-
-  if (req.body.dueDate !== undefined) {
-    task.dueDate = req.body.dueDate;
-  }
-
-  if (req.body.priority !== undefined) {
-    task.priority = req.body.priority;
-  }
-
-  res.json(task);
 });
 
 app.listen(PORT, () => {
