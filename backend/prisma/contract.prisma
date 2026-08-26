@@ -1,0 +1,8 @@
+model Task {
+  id        String   @id
+  text      String
+  done      Boolean  @default(false)
+  dueDate   String
+  priority  String
+  createdAt DateTime @default(now())
+}

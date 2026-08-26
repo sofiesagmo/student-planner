@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import db from "./db";
 
 const app = express();
 const PORT = 3000;
@@ -16,14 +17,20 @@ type Task = {
     createdAt: string; 
 };
 
-const tasks: Task[] = [];
 
 app.get("/", (req, res) => {
     res.json({ message: "Student Planner API is running!"});
 });
 
-app.get("/tasks", (req, res) => {
+app.get("/tasks", async (req, res) => {
+  try {
+    const tasks = await db.orm.public.Task.all();
+
     res.json(tasks);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    res.status(500).json({ message: "Failed to fetch tasks" });
+  }
 });
 
 app.post("/tasks", (req, res) => {
