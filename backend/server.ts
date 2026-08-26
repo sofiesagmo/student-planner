@@ -51,6 +51,35 @@ app.delete("/tasks/:id", (req, res) => {
     res.status(204).send();
 });
 
+app.patch("/tasks/:id", (req, res) => {
+  const taskId = req.params.id;
+
+  const task = tasks.find((task) => task.id === taskId);
+
+  if (!task) {
+    res.status(404).json({ message: "Task not found" });
+    return;
+  }
+
+  if (req.body.text !== undefined) {
+    task.text = req.body.text;
+  }
+
+  if (req.body.done !== undefined) {
+    task.done = req.body.done;
+  }
+
+  if (req.body.dueDate !== undefined) {
+    task.dueDate = req.body.dueDate;
+  }
+
+  if (req.body.priority !== undefined) {
+    task.priority = req.body.priority;
+  }
+
+  res.json(task);
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -89,26 +89,74 @@ function App() {
     }
   }
 
-  function toggleTask(idToToggle: string) {
-    setTasks(
-      tasks.map((task) =>
-        task.id === idToToggle
-          ? { ...task, done: !task.done }
-          : task
-      )
-    );
+
+  async function toggleTask(idToToggle: string) {
+    const task = tasks.find((task) => task.id === idToToggle);
+
+    if (!task) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/tasks/${idToToggle}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            done: !task.done,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update task");
+      }
+
+      const updatedTask = await response.json();
+
+      setTasks((currentTasks) =>
+        currentTasks.map((task) =>
+          task.id === idToToggle ? updatedTask : task
+        )
+      );
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   }
 
-  function saveTask(id: string, text: string, dueDate: string){
-    setTasks(
-      tasks.map((task) =>
-        task.id === id
-          ? { ...task, text: text.trim(), dueDate, }
-          : task
-      )
-    );
+  async function saveTask(id: string, text: string, dueDate: string) {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/tasks/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: text.trim(),
+            dueDate,
+          }),
+        }
+      );
 
-    setToastMessage("Task updated");
+      if (!response.ok) {
+        throw new Error("Failed to update task");
+      }
+
+      const updatedTask = await response.json();
+
+      setTasks((currentTasks) =>
+        currentTasks.map((task) => 
+          task.id === id ? updatedTask : task
+        )
+      );
+
+      setToastMessage("Task updated");
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   }
 
   useEffect(() => {
