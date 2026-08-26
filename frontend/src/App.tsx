@@ -9,10 +9,7 @@ import Toast from "./components/Toast";
 
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    const saved = localStorage.getItem("tasks");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const [newTask, setNewTask] = useState("");
   const [newDueDate, setNewDueDate] = useState("");
@@ -169,10 +166,6 @@ function App() {
         console.error("Error fetching tasks:", error);
       });
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
 
   useEffect(() => {
     if (!toastMessage) return;
