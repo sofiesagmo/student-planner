@@ -60,19 +60,33 @@ function App() {
     }
   }
 
-  function deleteTask(idToRemove: string) {
+  async function deleteTask(idToRemove: string) {
     const confirmed = window.confirm(
       "Are you sure you want to delete this task?"
     );
 
-    if (!confirmed) return; 
-    
-    setTasks(
-      tasks.filter((task) => 
-        task.id !== idToRemove
-    ));
+    if (!confirmed) return;
 
-    setToastMessage("Task deleted");
+    try {
+      const response = await fetch(
+        `http://localhost:3000/tasks/${idToRemove}` ,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete task");
+      }
+
+      setTasks((currentTasks) => 
+        currentTasks.filter((task) => task.id !== idToRemove)
+      );
+
+      setToastMessage("Task deleted");
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   }
 
   function toggleTask(idToToggle: string) {
