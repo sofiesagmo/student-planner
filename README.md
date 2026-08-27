@@ -1,5 +1,5 @@
 # Student-planner
-A full-stack student planner built while learning web development
+A full-stack student planner built while learning web development.
 
 ## Features
 * Create new tasks
@@ -19,8 +19,9 @@ A full-stack student planner built while learning web development
 * Display overdue tasks
 * Persist tasks in a PostgreSQL database
 
+<br>
 
-# Tech Stask
+# Tech Stack
 ## Frontend:
 - React
 - Typescript
@@ -36,9 +37,30 @@ A full-stack student planner built while learning web development
 - Prisma ORM
 
 ## Project Structure
-Student planner/
+```text
+student-planner/
+|–– backend/
+|   |–– prisma/
+|   |–– db.ts/
+|   |–– server.ts
+|   |–– package.json
+|   └── ...
+|
+|–– frontend/
+|   |–– src/
+|   |   |–– components/
+|   |   |–– App.tsx
+|   |   |–– App.css
+|   |   |–– types.ts
+|   |   └── ...
+|   |–– package.json
+|   └── ...
+|
+└── README.md
+```
 
-
+<br>
+<br>
 
 # Getting started
 ### Prerequisites
@@ -54,13 +76,16 @@ cd student-planner
 ### 2. Install dependencies
 Install the frontend dependencies:
 
+```bash
 cd frontend
 npm install
+```
 
 Then install the backend dependencies:
-
+```bash
 cd ../backend
 npm install
+```
 
 ### 3. Configure the database
 Make sure PostgreSQL is running and the backend is configured with the correct database connection.
@@ -70,8 +95,9 @@ The database configuration is handled by the backend
 ### 4. Start the backend
 
 From the backend directory:
-
+```bash
 npm run dev
+```
 
 The backend runs on:
 
@@ -80,9 +106,10 @@ http://localhost:3000
 ### 5. Start the frontend
 
 Open a new terminal and run:
-
+```bash
 cd frontend
 npm run dev
+```
 
 The frontend will be available at the URL provided by Vite, usually:
 
@@ -92,10 +119,12 @@ http://localhost:5173
 
 The frontend communicates with the backend through a REST API
 
-GET
-POST
-PATCH
-DELETE
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/tasks` | Get all tasks |
+| `POST` | `/tasks` | Create a new task |
+| `PATCH` | `/tasks/:id` | Update a task |
+| `DELETE` | `/tasks/:id` | Delete a task |
 
 ### Example task:
 {
@@ -107,9 +136,6 @@ DELETE
     "createdAt": "2026-08-26T00:00:00.00Z"
 }
 
-## How it works
-
-... 
 
 ## Future improvements
 
