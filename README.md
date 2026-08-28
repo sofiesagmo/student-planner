@@ -1,6 +1,10 @@
 # Student-planner
 A full-stack student planner built while learning web development.
 
+<p align="center">
+  <img src="images/student-planner.png" alt="Student Planner screenshot" width="400">
+</p>
+
 ## Features
 * Create new tasks
 * Add due dates to tasks
@@ -55,6 +59,9 @@ student-planner/
 |   |   └── ...
 |   |–– package.json
 |   └── ...
+|
+|–– images/
+|   └── student-planner.png
 |
 └── README.md
 ```
@@ -139,6 +146,8 @@ The frontend communicates with the backend through a REST API
 
 ## Future improvements
 
-- User authentication
-- Different task categories or courses
-- Search functionality
+- Add user authentication
+- Add task categories or course labels
+- Add search functionality
+- Add automated tests for frontend and backend functionality
+- Improve the UI and user experience
